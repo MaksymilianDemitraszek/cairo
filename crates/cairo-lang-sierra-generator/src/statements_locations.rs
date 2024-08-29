@@ -148,10 +148,11 @@ pub fn maybe_code_location(
 ) -> Option<(SourceFileFullPath, SourceCodeSpan)> {
     let user_location = location.diagnostic_location(db.upcast()).user_location(db.upcast());
     let file_full_path = user_location.file_id.full_path(db.upcast());
-    let position = user_location.span.position_in_file(db.upcast(), user_location.file_id)?;
+    let pos_start = user_location.span.start.position_in_file(db.upcast(), user_location.file_id)?;
+    let pos_end = user_location.span.end.position_in_file(db.upcast(), user_location.file_id)?;
     let source_location = SourceCodeSpan {
-        start: SourceCodeLocation { col: position.start.col, line: position.start.line },
-        end: SourceCodeLocation { col: position.end.col, line: position.end.line },
+        start: SourceCodeLocation { col: pos_start.col + 1, line: pos_start.line + 1 },
+        end: SourceCodeLocation { col: pos_end.col + 1, line: pos_end.line + 1},
     };
 
     Some((SourceFileFullPath(file_full_path), source_location))
