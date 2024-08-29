@@ -151,8 +151,8 @@ pub fn maybe_code_location(
     let pos_start = user_location.span.start.position_in_file(db.upcast(), user_location.file_id)?;
     let pos_end = user_location.span.end.position_in_file(db.upcast(), user_location.file_id)?;
     let source_location = SourceCodeSpan {
-        start: SourceCodeLocation { col: pos_start.col + 1, line: pos_start.line + 1 },
-        end: SourceCodeLocation { col: pos_end.col + 1, line: pos_end.line + 1},
+        start: SourceCodeLocation { col: pos_start.col, line: pos_start.line },
+        end: SourceCodeLocation { col: pos_end.col, line: pos_end.line},
     };
 
     Some((SourceFileFullPath(file_full_path), source_location))
